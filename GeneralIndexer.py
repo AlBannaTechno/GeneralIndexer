@@ -28,12 +28,12 @@ class Cooloring():
             Fore.RESET
         ]
         self.last = len(self.fcolors) - 1
-
+color=Cooloring()
 commands="""
 
 Usage:
  GeneralIndexer -h | --help
- GeneralIndexer find (file | mfile) <data>  [--f <fpath> ] [--result <expression>]
+ GeneralIndexer find (file | mfile) <data>  [--result <expression>] [--f <fpath> ]
 
 Options:
  -h , --help
@@ -42,22 +42,28 @@ Options:
 """
 # simple command  >python GeneralIndexer.py find file python --f os.txt --result 01
 def main():
+    print(color.fcolors[3])
     arguments = docopt(commands, version='1.0.0rc2')
-    print(arguments)
+    print(color.fcolors[color.last])
+    # print(arguments)
     cont=Controller()
     newLine="\n"
     sepratore=" , "
+    ba_sep="_"
+    ba_sep_num=30
+    ba_sep_st_fg_color=color.fcolors[5]
+    ba_sep_st_bg_color=color.bcolors[7]
+    ba_sep_end_fg_color=color.fcolors[color.last]
+    ba_sep_end_bg_color=color.bcolors[color.last]
     exp_list=[]
-    # file=[]
     if arguments.get('find'):
         if arguments.get('--result'):
             expressions=arguments.get('<expression>')
-            print(expressions)
             for e in expressions:
                 if int(e) in range(0,3):
                     exp_list.append(int(e))
                 else:
-                    print("Warn : InValid Value in expression")
+                    print(color.fcolors[13]+"Warn : InValid Value in expression"+color.fcolors[color.last])
         else:
             exp_list=[1]
         data=arguments.get('<data>')
@@ -67,20 +73,23 @@ def main():
         if arguments.get('mfile'):
             data=data.split(',')
             for d in data:
-                databooks=cont.get_books_name_like(arguments[d])
+                databooks=cont.get_books_name_like(d)
                 if arguments.get('--f'):
                     file = open(arguments.get('<fpath>'), 'a', encoding='utf-8')
-                    file.write("#"*20+str(d)+"#"*20+newLine)
+                    file.write(ba_sep*ba_sep_num+str(d)+ba_sep*ba_sep_num+newLine)
                     for db in databooks:
                         for _exp in exp_list:
                             file.write(str(db[_exp])+sepratore)
                         file.write(newLine)
                     file.close()
                 else:
-                    print("#"*20+str(d)+"#"*20)
+                    print(ba_sep_st_fg_color+ba_sep_st_bg_color+ba_sep*ba_sep_num+str(d)+ba_sep*ba_sep_num+ba_sep_end_bg_color+ba_sep_end_fg_color)
                     for db in databooks:
                         for _exp in exp_list:
-                            print(db[_exp],end=sepratore)
+                            try:
+                                print(color.fcolors[1]+str(db[_exp])+color.fcolors[color.last],end=sepratore)
+                            except:
+                                print(color.fcolors[13] + "The Terminal Not Support this encoding" + color.fcolors[color.last])
                         print("")
         elif arguments.get('file'):
             databooks = cont.get_books_name_like(data)
@@ -94,7 +103,11 @@ def main():
             else:
                 for db in databooks:
                     for _exp in exp_list:
-                        print(db[_exp],end=sepratore)
+                        try:
+                            print(color.fcolors[11]+str(db[_exp])+color.fcolors[color.last],end=sepratore)
+                        except:
+                            print(color.fcolors[13] + "The Terminal Not Support this encoding" + color.fcolors[color.last])
+
                     print("")
 if __name__ == '__main__':
     main()
