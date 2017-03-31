@@ -5,6 +5,7 @@ The Base File For All Operations
 """
 import os
 import peewee
+import sqlite3
 class PathCrawler(object):
     def __init__(self,path):
         self.path=path
@@ -58,3 +59,14 @@ class DbCreatorController(object):
             Book__.save()
         except:
             print("ERROR::INPUT::THIS VALUE IS EXIST")
+    @staticmethod
+    def do_query_sql_lite3(qu=""):
+        if not qu:
+            qu="""SELECT FileName FROM Books
+                       """
+        import sqlite3
+        conn = sqlite3.connect("db.sqllite")  # or use :memory: to put it in RAM
+        cursor = conn.cursor()
+        a = cursor.execute(qu)
+        f = cursor.fetchall()
+        return f
