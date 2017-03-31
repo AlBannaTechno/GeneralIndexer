@@ -4,6 +4,7 @@ The Base File For All Operations
 
 """
 import os
+import peewee
 class PathCrawler(object):
     def __init__(self,path):
         self.path=path
@@ -34,3 +35,19 @@ class PathCrawler(object):
                     tl.append(nt)
         return tl
 
+
+class DbCreatorController(object):
+    dbBooks=peewee.SqliteDatabase('PdfLib.sqlLite')
+    class Books(peewee.Model):
+        FileName = peewee.TextField()
+        FilePath = peewee.TextField(unique=True)
+        class Meta:
+            database = DbCreatorController.dbBooks
+    def __init__(self):
+        pass
+    @staticmethod
+    def Create_Books_Table_For_Once():
+        try:
+            DbCreatorController.Books.create_table()
+        except:
+            print("ERROR::THIS TABLE IS EXIST")
