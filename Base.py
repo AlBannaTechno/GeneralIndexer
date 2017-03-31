@@ -108,9 +108,9 @@ class Controller(object):
     def change_path(self,path):
         self.path = path
         self.pcr = PathCrawler(self.path)
-def main():
+def main(*args,**kwargs):
     #testpath = r"E:\NewDownload\New folder\Documents"
-
+    print(args)
     cont=Controller()
     "Get All Pdf Books"
     # pathlist=[
@@ -127,8 +127,17 @@ def main():
     # # cont.create_main_table()
     # cont.search_on_pdf()
     # cont.put_all_pdf_into_main_table()
-
-    for x in cont.get_books_name_like("jdbc"):
-        print(x[2])
+    gc=0
+    for find in args[0][1:]:
+        print("*"*30+find+"*"*30)
+        y=cont.get_books_name_like(find)
+        for x in y:
+            try:
+                print(x[2])
+            except:
+                pass
+        gc+=len(y)
+        print("All Data Counter%s"%(str(len(y))))
+import sys
 if __name__=="__main__":
-    main()
+    main(sys.argv)
