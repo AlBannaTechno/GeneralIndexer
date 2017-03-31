@@ -14,7 +14,10 @@ class PathCrawler(object):
     @staticmethod
     def get_all(path):
         full_list = []
-        first_list = os.listdir(path)
+        try:
+            first_list = os.listdir(path)
+        except:
+            return []
         for p in first_list:
             if os.path.isdir(path + "/" + p):
                 full_list.extend(PathCrawler.get_all(path + "/" + p))
@@ -65,7 +68,7 @@ class DbCreatorController(object):
             qu="""SELECT FileName FROM Books
                        """
         import sqlite3
-        conn = sqlite3.connect("db.sqllite")  # or use :memory: to put it in RAM
+        conn = sqlite3.connect("PdfLib.sqlLite")  # or use :memory: to put it in RAM
         cursor = conn.cursor()
         a = cursor.execute(qu)
         f = cursor.fetchall()
@@ -106,8 +109,26 @@ class Controller(object):
         self.path = path
         self.pcr = PathCrawler(self.path)
 def main():
-    testpath = r"E:\NewDownload\New folder\Documents"
-    cont=Controller(testpath)
-    cont.create_main_table()
+    #testpath = r"E:\NewDownload\New folder\Documents"
+
+    cont=Controller()
+    "Get All Pdf Books"
+    # pathlist=[
+    #     r'E:',
+    #     r'D:',
+    #     r'K:',
+    #     r'S:'
+    # ]
+    # for path in pathlist:
+    #     cont.change_path(path)
+    #     cont.search_on_pdf()
+    #     cont.put_all_pdf_into_main_table()
+
+    # # cont.create_main_table()
+    # cont.search_on_pdf()
+    # cont.put_all_pdf_into_main_table()
+
+    for x in cont.get_books_name_like("jdbc"):
+        print(x[2])
 if __name__=="__main__":
     main()
