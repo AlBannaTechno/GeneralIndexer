@@ -35,7 +35,8 @@ class PathCrawler(object):
                 if nt[2] == 'pdf':
                     tl.append(nt)
         return tl
-
+    def return_data_pdf(self):
+        return self.__pdfList
 
 class DbCreatorController(object):
     dbBooks=peewee.SqliteDatabase('PdfLib.sqlLite')
