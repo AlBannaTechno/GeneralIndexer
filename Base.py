@@ -51,3 +51,10 @@ class DbCreatorController(object):
             DbCreatorController.Books.create_table()
         except:
             print("ERROR::THIS TABLE IS EXIST")
+    @staticmethod
+    def Inser_Book_Into_Books_Table(book_name, book_path):
+        try:
+            Book__ = DbCreatorController.Books(FileName=book_name, FilePath=book_path)
+            Book__.save()
+        except:
+            print("ERROR::INPUT::THIS VALUE IS EXIST")
