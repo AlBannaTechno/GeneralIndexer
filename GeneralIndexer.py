@@ -1,4 +1,6 @@
+from docopt import docopt
 from colorama import Fore, Back
+from Base import Controller
 class Cooloring():
     def __init__(self):
         self.bcolors = [
@@ -26,3 +28,73 @@ class Cooloring():
             Fore.RESET
         ]
         self.last = len(self.fcolors) - 1
+
+commands="""
+
+Usage:
+ GeneralIndexer -h | --help
+ GeneralIndexer find (file | mfile) <data>  [--f <fpath> ] [--result <expression>]
+
+Options:
+ -h , --help
+ -f fbath
+ -result expression     we can use this like index,name,path:012 or we can do name,index : 10
+"""
+# simple command  >python GeneralIndexer.py find file python --f os.txt --result 01
+def main():
+    arguments = docopt(commands, version='1.0.0rc2')
+    print(arguments)
+    cont=Controller()
+    newLine="\n"
+    sepratore=" , "
+    exp_list=[]
+    # file=[]
+    if arguments.get('find'):
+        if arguments.get('--result'):
+            expressions=arguments.get('<expression>')
+            print(expressions)
+            for e in expressions:
+                if int(e) in range(0,3):
+                    exp_list.append(int(e))
+                else:
+                    print("Warn : InValid Value in expression")
+        else:
+            exp_list=[1]
+        data=arguments.get('<data>')
+        if arguments.get('--f'):
+            file = open(arguments.get('<fpath>'), 'w', encoding='utf-8')
+            file.close()
+        if arguments.get('mfile'):
+            data=data.split(',')
+            for d in data:
+                databooks=cont.get_books_name_like(arguments[d])
+                if arguments.get('--f'):
+                    file = open(arguments.get('<fpath>'), 'a', encoding='utf-8')
+                    file.write("#"*20+str(d)+"#"*20+newLine)
+                    for db in databooks:
+                        for _exp in exp_list:
+                            file.write(str(db[_exp])+sepratore)
+                        file.write(newLine)
+                    file.close()
+                else:
+                    print("#"*20+str(d)+"#"*20)
+                    for db in databooks:
+                        for _exp in exp_list:
+                            print(db[_exp],end=sepratore)
+                        print("")
+        elif arguments.get('file'):
+            databooks = cont.get_books_name_like(data)
+            if arguments.get('--f'):
+                file = open(arguments.get('<fpath>'), 'a', encoding='utf-8')
+                for db in databooks:
+                    for _exp in exp_list:
+                        file.write(str(db[_exp])+sepratore)
+                    file.write(newLine)
+                file.close()
+            else:
+                for db in databooks:
+                    for _exp in exp_list:
+                        print(db[_exp],end=sepratore)
+                    print("")
+if __name__ == '__main__':
+    main()
