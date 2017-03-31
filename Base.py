@@ -39,12 +39,11 @@ class PathCrawler(object):
         return self.__pdfList
 
 class DbCreatorController(object):
-    dbBooks=peewee.SqliteDatabase('PdfLib.sqlLite')
     class Books(peewee.Model):
         FileName = peewee.TextField()
         FilePath = peewee.TextField(unique=True)
         class Meta:
-            database = DbCreatorController.dbBooks
+            database = peewee.SqliteDatabase('PdfLib.sqlLite')
     def __init__(self):
         pass
     @staticmethod
@@ -86,8 +85,8 @@ class DbCreatorController(object):
         return data
 
 class Controller(object):
-    def __init__(self):
-        self.path=""
+    def __init__(self,path=""):
+        self.path=path
         self.pcr=PathCrawler(self.path)
     def create_main_table(self):
         DbCreatorController.Create_Books_Table_For_Once()
@@ -103,3 +102,12 @@ class Controller(object):
     def get_books_name_like(self,l_name):
         data=DbCreatorController.get_file_like(l_name)
         return data
+    def change_path(self,path):
+        self.path = path
+        self.pcr = PathCrawler(self.path)
+def main():
+    testpath = r"E:\NewDownload\New folder\Documents"
+    cont=Controller(testpath)
+    cont.create_main_table()
+if __name__=="__main__":
+    main()
