@@ -8,6 +8,7 @@ class PathCrawler(object):
     def __init__(self,path):
         self.path=path
         self.__fileList=[]
+        self.__pdfList=[]
     @staticmethod
     def get_all(path):
         full_list = []
@@ -20,3 +21,16 @@ class PathCrawler(object):
         return full_list
     def do_evry_thing(self):
         self.__fileList=PathCrawler.get_all(self.path)
+        self.__pdfList=PathCrawler.get_pdf(self.__fileList)
+    @staticmethod
+    def get_pdf(path_list):
+        tl = []
+        for a in path_list:
+            if os.path.isfile(a):
+                name = os.path.basename(a)
+                # fullPath,name,ext
+                nt = [a, name[:len(name) - 4], name.split('.')[-1]]
+                if nt[2] == 'pdf':
+                    tl.append(nt)
+        return tl
+
