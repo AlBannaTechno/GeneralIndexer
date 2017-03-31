@@ -70,3 +70,10 @@ class DbCreatorController(object):
         a = cursor.execute(qu)
         f = cursor.fetchall()
         return f
+    @staticmethod
+    def do_self_query_peewee(like):
+        books=DbCreatorController.Books.filter(FileName=like)
+        fl=[]
+        for book in books:
+            fl.append((book.FileName,book.FilePath))
+        return fl
