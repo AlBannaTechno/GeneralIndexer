@@ -78,8 +78,28 @@ class DbCreatorController(object):
         for book in books:
             fl.append((book.FileName,book.FilePath))
         return fl
-    def get_file_like(self,name):
+    @staticmethod
+    def get_file_like(name):
         data=DbCreatorController.do_query_sql_lite3(r'''
         Select * From Books WHERE FileName Like "%{}%"
         '''.format(name))
+        return data
+
+class Controller(object):
+    def __init__(self):
+        self.path=""
+        self.pcr=PathCrawler(self.path)
+    def create_main_table(self):
+        DbCreatorController.Create_Books_Table_For_Once()
+    def search_on_pdf(self):
+        self.pcr.do_evry_thing()
+        return self.pcr.return_data_pdf()
+    def put_all_pdf_into_main_table(self):
+        for book in self.pcr.return_data_pdf():
+            DbCreatorController.Inser_Book_Into_Books_Table(book[1],book[0])
+    def put_specific_pdf_into_main_table(self,pdf_list):
+        for book in pdf_list:
+            DbCreatorController.Inser_Book_Into_Books_Table(book[1],book[0])
+    def get_books_name_like(self,l_name):
+        data=DbCreatorController.get_file_like(l_name)
         return data
