@@ -5,9 +5,9 @@ The Base File For All Operations
 """
 import os
 class PathCrawler(object):
-    def __init__(self):
-        pass
-
+    def __init__(self,path):
+        self.path=path
+        self.__fileList=[]
     @staticmethod
     def get_all(path):
         full_list = []
@@ -18,3 +18,5 @@ class PathCrawler(object):
             else:
                 full_list.append(path + "/" + p)
         return full_list
+    def do_evry_thing(self):
+        self.__fileList=PathCrawler.get_all(self.path)
