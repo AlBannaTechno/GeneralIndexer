@@ -77,3 +77,8 @@ class DbCreatorController(object):
         for book in books:
             fl.append((book.FileName,book.FilePath))
         return fl
+    def get_file_like(self,name):
+        data=DbCreatorController.do_query_sql_lite3(r'''
+        Select * From Books WHERE FileName Like "%{}%"
+        '''.format(name))
+        return data
