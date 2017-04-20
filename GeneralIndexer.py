@@ -1,3 +1,8 @@
+"""
+
+full Exaple:
+python GeneralIndexer.py find mfile "python","java","cpp","osama","جافا" --result 01
+"""
 from docopt import docopt
 from colorama import Fore, Back
 from Base import Controller
@@ -33,19 +38,21 @@ commands="""
 
 Usage:
  GeneralIndexer -h | --help
+ GeneralIndexer add (path | paths) <pathData> [--db <db>]
  GeneralIndexer find (file | mfile) <data>  [--result <expression>] [--f <fpath> ]
 
 Options:
  -h , --help
  -f fbath
- -result expression     we can use this like index,name,path:012 or we can do name,index : 10
+ -result expression
+ -db <db>
 """
 # simple command  >python GeneralIndexer.py find file python --f os.txt --result 01
 def main():
     print(color.fcolors[3])
     arguments = docopt(commands, version='1.0.0rc2')
     print(color.fcolors[color.last])
-    # print(arguments)
+    print(arguments)
     cont=Controller()
     newLine="\n"
     sepratore=" , "
