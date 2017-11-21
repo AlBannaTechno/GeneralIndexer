@@ -4,3 +4,7 @@
 ##### Organize the books based on it's title or content
 ##### copy the books with the same fields at specific dir [escaped]
 ##### all data will store in database sqlLite
+
+### Required : 
+#### base-Libs       : peewee , sqlite3
+#### coloring-libs   : docopt , colorama
