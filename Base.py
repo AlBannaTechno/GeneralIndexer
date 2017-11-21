@@ -46,7 +46,7 @@ class DbCreatorController(object):
         FileName = peewee.TextField()
         FilePath = peewee.TextField(unique=True)
         class Meta:
-            database = peewee.SqliteDatabase('PdfLib.sqlLite')
+            database = peewee.SqliteDatabase('pureDb.sqllite')
     def __init__(self):
         pass
     @staticmethod
@@ -68,7 +68,7 @@ class DbCreatorController(object):
             qu="""SELECT FileName FROM Books
                        """
         import sqlite3
-        conn = sqlite3.connect("PdfLib.sqlLite")  # or use :memory: to put it in RAM
+        conn = sqlite3.connect("pureDb.sqllite")  # or use :memory: to put it in RAM
         cursor = conn.cursor()
         a = cursor.execute(qu)
         f = cursor.fetchall()
